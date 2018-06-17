@@ -1,0 +1,29 @@
+.wdb-control{
+    width: 100%;
+    border: none;
+    padding: 0 0;
+    margin: 5px;
+}
+
+.wdb-toolbar{
+    width: 100%;
+    padding: 10px 5px;
+}
+
+.wdb-city-selector{
+    margin: 10px 5px;
+    width: 80%;
+}
+
+.wdb-add-city-button{
+    margin: 10px 5px;
+    width: 10%;
+    height: 2em;
+}
+
+.wdb-panel{
+    width: 100%;
+    height: 100px;
+    position: relative;
+    padding: 0px 10px;
+}
