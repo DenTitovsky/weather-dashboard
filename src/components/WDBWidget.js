@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 const cityWeatherInfoLoader = cityCode => new Promise((resolve, reject) => {
-    const url = 'http://api.openweathermap.org/data/2.5/weather?appid=05e91536a9197900dec0d6bf26e3ba76&units=metric&id=' + cityCode
+    const url = `http://api.openweathermap.org/data/2.5/weather?appid=05e91536a9197900dec0d6bf26e3ba76&units=metric&id=${cityCode}`
     const request = new XMLHttpRequest()
     request.open('GET', url)
     request.onload = () => request.status === 200 ?
@@ -46,11 +46,11 @@ class WDBWidget extends Component {
         cityWeatherInfoLoader(cityCode).then( response => {
             const cityWeatherInfo = {
                 cityName: response.name,
-                iconTitle: response.weather[0].main + ", " + response.weather[0].description,
-                iconURL: "http://openweathermap.org/img/w/" + response.weather[0].icon + ".png",
-                temperature: response.main.temp + "° C",
-                wind: "Ветер: " + response.wind.speed + " meter/sec",
-                pressure: "Давление: " + response.main.pressure + " hPa"
+                iconTitle: `${response.weather[0].main}, ${response.weather[0].description}`,
+                iconURL: `http://openweathermap.org/img/w/${response.weather[0].icon}.png`,
+                temperature: `${response.main.temp}° C`,
+                wind: `Ветер: ${response.wind.speed} meter/sec`,
+                pressure: `Давление: ${response.main.pressure} hPa`
             }
 
             this.setState({ loading:false, cityWeatherInfo, error: '' })
