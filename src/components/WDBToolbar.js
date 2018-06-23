@@ -6,7 +6,7 @@ class WDBToolbar extends Component {
         const { citySelector } = this.refs;
         let selectedCityId = citySelector.value;
         if(selectedCityId){
-            this.props.onAddCity(selectedCityId)
+            this.props.onAddCity(selectedCityId, citySelector.childNodes[citySelector.selectedIndex].text)
             citySelector.value = ""
         } else {
             alert("Выберите город, для которого нужно добавить виджет погоды.")

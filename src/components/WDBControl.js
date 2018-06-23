@@ -1,57 +1,35 @@
-import React, {Component} from 'react';
-import WDBToolbar from './WDBToolbar';
-import WDBPanel from './WDBPanel';
+import React, {Component} from 'react'
+import WDBToolbar from './WDBToolbar'
+import WDBPanel from './WDBPanel'
 
-class WDBControl extends Component {
-    render() {
-        var cityCodes = [
-			{
-			    "id": 519188,
-			    "name": "Novinki"
-			},
-			{
-			    "id": 473537,
-			    "name": "Vinogradovo"
-			},
-			{
-			    "id": 569143,
-			    "name": "Cherkizovo"
-			},
-			{
-			    "id": 803611,
-			    "name": "Yurevichi"
-			},
-			{
-			    "id": 2051302,
-			    "name": "Priiskovyy"
-			},
-			{
-			    "id": 476350,
-			    "name": "Vavibet"
-			},
-    	    {
-    	        "id": 1496747,
-    	        "name": "Novosibirsk"
-    	    },
-	        {
-	            "id": 1489423,
-	            "name": "Tomskaya"
-	        },
-	        {
-	            "id": 1496153,
-	            "name": "Omsk"
-	        }
-		];
+const WDBControl = (cities, widgetsStorage) =>
+	class WDBControl extends Component {
 
-		return <div className="wdb-control">
-                    <WDBToolbar cities = {cityCodes} onAddCity={this.AddWidgetToPanel.bind(this)} />
-                    <WDBPanel ref="widgetsPanel" />
-                </div>
+		componentWillMount() {
+			this.widgets = widgetsStorage.deserializeWidgets()
+		}
+
+		render() {
+			return <div className="wdb-control">
+						<WDBToolbar cities = {cities} onAddCity={this.addWidgetToPanel.bind(this)} />
+						<WDBPanel widgets = {this.widgets} ref="widgetsPanel" onRemoveWidget={this.removeWidgetFromPanel.bind(this)} />
+					</div>
+		}
+		
+		addWidgetToPanel(cityCode, cityName){
+			var widgets = widgetsStorage.deserializeWidgets()
+			widgets.push({ cityCode, cityName })
+			widgetsStorage.serializeWidgets(widgets)
+
+			this.refs.widgetsPanel.addWidget(cityCode)
+		}
+
+		removeWidgetFromPanel(cityCode) {
+			var widgets = widgetsStorage.deserializeWidgets()
+			widgetsStorage.serializeWidgets(widgets.filter(function(widget){
+				return widget.cityCode !== cityCode
+			}))
+		}
 	}
-	
-	AddWidgetToPanel(cityCode){
-		this.refs.widgetsPanel.addWidget(cityCode)
-	}
-}
 
-export default WDBControl;
+export default WDBControl

@@ -13,10 +13,10 @@ const cityWeatherInfoLoader = cityCode => new Promise((resolve, reject) => {
 
 class WDBWidget extends Component {
 
-    componentWillMount() {
-        const cityCode = this.props.cityCode
-        this.setState({
-            cityCode: cityCode,
+    constructor(props){
+        super(props)
+        this.state = {
+            cityCode: props.cityCode,
             loading: true,
             cityWeatherInfo: {
                 cityName: '',
@@ -27,8 +27,11 @@ class WDBWidget extends Component {
                 pressure: ''
             },
             error: ''
-        })
-        this.loadCityWeatherInfo(cityCode)
+        }
+    }
+
+    componentWillMount() {
+        this.loadCityWeatherInfo(this.state.cityCode)
     }
 
     componentDidMount(){
@@ -53,7 +56,7 @@ class WDBWidget extends Component {
                 pressure: `Давление: ${response.main.pressure} hPa`
             }
 
-            this.setState({ loading:false, cityWeatherInfo, error: '' })
+            this.setState({ loading: false, cityWeatherInfo, error: '' })
         },
         error => {
             this.setState({ loading: false, error })
@@ -65,7 +68,7 @@ class WDBWidget extends Component {
     }
 
     render() {
-        const { cityWeatherInfo } = this.state
+        const { loading, cityWeatherInfo } = this.state
         return  <div className="axdb-widget">
                     <table>
                         <tbody>
@@ -74,9 +77,14 @@ class WDBWidget extends Component {
                                 <td className="axdb-widget-close-cell fa fa-close" onClick={this.onClickClose.bind(this)} ></td>
                             </tr>
                             <tr>
-                                <td className="axdb-widget-weather-image{ this.state.loading ? ' axdb-widget-loading' : '' }">
-                                    <img title={cityWeatherInfo.iconTitle} alt={cityWeatherInfo.iconTitle} src={cityWeatherInfo.iconURL}/>
-                                </td>
+                                {
+                                    loading ?
+                                        <td className="axdb-widget-weather-image axdb-widget-loading" />
+                                    :
+                                    <td className="axdb-widget-weather-image">
+                                        <img title={cityWeatherInfo.iconTitle} alt={cityWeatherInfo.iconTitle} src={cityWeatherInfo.iconURL}/>
+                                    </td>
+                                }
                                 <td className="axdb-widget-weather-temperature">{cityWeatherInfo.temperature}</td>
                                 <td rowSpan="3"></td>
                             </tr>
