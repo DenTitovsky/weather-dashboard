@@ -8,7 +8,7 @@ class WDBPanel extends Component{
     }
 
     addWidget(cityCode){
-        if(this.state.widgets.some(widget => widget === cityCode))
+        if(this.state.widgets.some(widget => widget.cityCode === cityCode))
             alert('Виджет погоды для выбранного города уже размещен на панели.')
         else {
             const widgets = [...this.state.widgets, { cityCode }]
