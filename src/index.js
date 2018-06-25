@@ -6,9 +6,7 @@ import {cities} from './cities'
 import './index.css';
 import './style/WDBControl.css';
 import './style/WDBWidget.css';
-import registerServiceWorker from './registerServiceWorker';
 
 const WDBControlPersisted = WDBControl(cities, WDBCookiesStorage())
 
 ReactDOM.render(<WDBControlPersisted />, document.getElementById('root'));
-registerServiceWorker();
